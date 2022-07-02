@@ -11,14 +11,16 @@ namespace Tests.Instruments.Exceptions
     {
         public static int SubFuncWithLeave()
         {
+            int a = 0;
             try
             {
-                return 11;
+                a = 11;
             }
             catch (Exception)
             {
-                return 22;
+                a = 22;
             }
+            return a;
         }
 
         [UnitTest]
