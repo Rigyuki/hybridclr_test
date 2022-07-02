@@ -15,12 +15,25 @@ namespace Tests.CSharp
 
     class ExplicitMethod : IExplicit
     {
+        private int depth = 0;
+
         public virtual int Show()
         {
             return 1;
         }
 
-        int IExplicit.Show() => Show();
+        int IExplicit.Show()
+        {
+            if (depth == 0)
+            {
+                ++depth;
+                return Show();
+            }
+            else
+            {
+                return 2;
+            }
+        }
     }
 
     internal class TC_explicit_interface : GeneralTestCaseBase

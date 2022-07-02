@@ -22,7 +22,7 @@ namespace Huatuo
     {
 
 
-        [UnityEditor.Callbacks.DidReloadScripts]
+        //[UnityEditor.Callbacks.DidReloadScripts]
         private static void OnScriptsReloaded()
         {
             var target = EditorUserBuildSettings.activeBuildTarget;

@@ -77,7 +77,7 @@ public class TestReporter
         {
             //Debug.LogErrorFormat("[{0}] {1}::{2}. {3}", succ, testcaseFamily, testCaseName, msg);
         }
-        _baseLogger.WriteLine("[{0}] {1}::{2}. {3}", succ, testcaseFamily, testCaseName, msg);
+        //_baseLogger.WriteLine("[{0}] {1}::{2}. {3}", succ, testcaseFamily, testCaseName, msg);
         s_results.Add(new TestcaseResult { Family = testcaseFamily, Name = testCaseName, Status = succ, Msg = msg });
         _baseLogger.Flush();
         _ = _logFileStream.FlushAsync();
