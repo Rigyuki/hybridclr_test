@@ -113,6 +113,7 @@ public class ForFunClass : System.IEquatable<ForFunClass>, IFoo
     {
         return x;
     }
+    
 }
 
 

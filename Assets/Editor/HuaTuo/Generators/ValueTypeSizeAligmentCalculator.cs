@@ -106,7 +106,7 @@ namespace Huatuo.Generators
 			}
 			if (sa != null && sa.Size > 0)
 			{
-				if (sa.Value == LayoutKind.Explicit && useSLSize)
+				if (/*sa.Value == LayoutKind.Explicit &&*/ useSLSize)
 				{
 					totalSize = sa.Size;
 					while(totalSize % maxAligment != 0)

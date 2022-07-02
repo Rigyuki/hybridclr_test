@@ -8,5 +8,6 @@ namespace Tests.Mics
 {
     internal class Any : GeneralTestCaseBase
     {
+        UnityEngine.Rendering.CameraProperties p;
     }
 }
