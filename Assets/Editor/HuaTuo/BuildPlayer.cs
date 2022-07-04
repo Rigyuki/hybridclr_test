@@ -19,6 +19,7 @@ namespace Huatuo
         {
             var buildDir = EditorHelper.GetDllBuildOutputDirByTarget(target);
             var buildStreamingAssetsDir = $"{outputPath}/HuatuoTest_Data/StreamingAssets";
+            Directory.CreateDirectory(buildStreamingAssetsDir);
 
             // copy hotfix dll
             foreach (var dllName in BuildProcessor_2020_1_OR_NEWER.s_allHotUpdateDllNames)
