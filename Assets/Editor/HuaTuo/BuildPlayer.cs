@@ -73,6 +73,9 @@ namespace Huatuo
             BuildPipeline.BuildPlayer(buildPlayerOptions);
 
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
+#if UNITY_STANDALONE_WIN
+        Application.OpenURL($"file:///{outputPath}");
+#endif
         }
 
         [MenuItem("Huatuo/Build/Andriod64")]

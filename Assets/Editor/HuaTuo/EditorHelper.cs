@@ -23,29 +23,10 @@ namespace Huatuo
 
 
         //[UnityEditor.Callbacks.DidReloadScripts]
+        [MenuItem("Huatuo/CopyDll/Assets_StreamingAssets")]
         private static void OnScriptsReloaded()
         {
-            var target = EditorUserBuildSettings.activeBuildTarget;
-            var buildDir = GetDllBuildOutputDirByTarget(target);
-            CompileDll(buildDir, target);
-            foreach(var dllName in new string[] {"Tests.dll", "BootstrapTests.dll"})
-            {
-                string hotfixDll = $"{buildDir}/{dllName}";
-                string target1 = $"{Application.streamingAssetsPath}/{dllName}";
-                File.Copy(hotfixDll, target1, true);
-
-                //foreach (var verTarget in new string[] { "Build-Win64" })
-                //{
-                //    string verStreamingAssetsPath = $"{Application.dataPath}/../{verTarget}/build/bin/HuatuoTest_Data/StreamingAssets";
-                //    if (!Directory.Exists(verStreamingAssetsPath))
-                //    {
-                //        continue;
-                //    }
-                //    string target2 = $"{verStreamingAssetsPath}/{dllName}";
-                //    File.Copy(hotfixDll, target2, true);
-                //}
-                UnityEngine.Debug.Log("compile succ");
-            }
+            BuildPlayer.CopyHotfixAndAOTDll2BuildStreamingAssetsDir(EditorUserBuildSettings.activeBuildTarget, Application.streamingAssetsPath);
         }
 
 
