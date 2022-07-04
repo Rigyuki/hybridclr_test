@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,16 +15,51 @@ namespace Huatuo
             EditorHelper.MethodBridge_Arm64();
         }
 
+        public static void CopyHotfixAndAOTDll2BuildStreamingAssetsDir(BuildTarget target, string outputPath)
+        {
+            var buildDir = EditorHelper.GetDllBuildOutputDirByTarget(target);
+            var buildStreamingAssetsDir = $"{outputPath}/HuatuoTest_Data/StreamingAssets";
+
+            // copy hotfix dll
+            foreach (var dllName in BuildProcessor_2020_1_OR_NEWER.s_allHotUpdateDllNames)
+            {
+                string hotfixDll = $"{buildDir}/{dllName}";
+                string targetDll = $"{buildStreamingAssetsDir}/{dllName}";
+                File.Copy(hotfixDll, targetDll, true);
+                UnityEngine.Debug.Log($"copy hotfix dll. {hotfixDll} => {targetDll}");
+            }
+
+            // copy aot dll
+            var aotStripDllDir = EditorHelper.GetAssembliesPostIl2CppStripDir(target);
+            foreach (var aotDll in EditorHelper.s_additionAotDlls)
+            {
+                string targetDll = $"{buildStreamingAssetsDir}/{Path.GetFileName(aotDll)}";
+                string aotDllFullPath = $"{aotStripDllDir}/{aotDll}";
+                File.Copy(aotDllFullPath, targetDll, true);
+                UnityEngine.Debug.Log($"copy aot dll. {aotDllFullPath} => {targetDll}");
+            }
+        }
+
+        [MenuItem("Huatuo/CopyDll/Win64")]
+        static void CopyDll2BuildDir()
+        {
+            BuildTarget target = BuildTarget.StandaloneWindows64;
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Release-Win64";
+            CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
+        }
+
         [MenuItem("Huatuo/Build/Win64")]
         public static void Build_Win64()
         {
-            GenMethodBridges();
+            BuildTarget target = BuildTarget.StandaloneWindows64;
+            EditorHelper.CompileDllWin64();
+            // GenMethodBridges();
             // Get filename.
-            string path = $"{Application.dataPath}/../Release-Win64";
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Release-Win64";
 
             var buildOptions = BuildOptions.None;
 
-            string location = path + "/Test.exe";
+            string location = outputPath + "/HuatuoTest.exe";
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
             {
                 scenes = new string[] { "Assets/Scenes/main.unity" },
@@ -34,6 +70,8 @@ namespace Huatuo
             };
 
             BuildPipeline.BuildPlayer(buildPlayerOptions);
+
+            CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
 
         [MenuItem("Huatuo/Build/Andriod64")]
@@ -45,7 +83,7 @@ namespace Huatuo
 
             var buildOptions = BuildOptions.None;
 
-            string location = path + "/Test.apk";
+            string location = path + "/HuatuoTest.apk";
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
             {
                 scenes = new string[] { "Assets/Scenes/main.unity" },
