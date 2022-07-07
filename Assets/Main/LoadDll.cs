@@ -11,6 +11,7 @@ public class LoadDll : MonoBehaviour
     {
         BetterStreamingAssets.Initialize();
 
+        TestRunner.PreLoadTests();
         TestRunner.InitTestContext();
         TestRunner.Run();
     }

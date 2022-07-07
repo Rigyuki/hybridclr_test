@@ -18,7 +18,7 @@ namespace Huatuo
         public static void CopyHotfixAndAOTDll2BuildStreamingAssetsDir(BuildTarget target, string outputPath)
         {
             var buildDir = EditorHelper.GetDllBuildOutputDirByTarget(target);
-            var buildStreamingAssetsDir = $"{outputPath}/HuatuoTest_Data/StreamingAssets";
+            var buildStreamingAssetsDir = $"{outputPath}";
             Directory.CreateDirectory(buildStreamingAssetsDir);
 
             // copy hotfix dll
@@ -41,11 +41,27 @@ namespace Huatuo
             }
         }
 
-        [MenuItem("Huatuo/CopyDll/Win64")]
+
+        //[UnityEditor.Callbacks.DidReloadScripts]
+        [MenuItem("Huatuo/CopyDll/Assets_StreamingAssets")]
+        private static void OnScriptsReloaded()
+        {
+            BuildPlayer.CopyHotfixAndAOTDll2BuildStreamingAssetsDir(EditorUserBuildSettings.activeBuildTarget, Application.streamingAssetsPath);
+        }
+
+        [MenuItem("Huatuo/CopyDll/Build_Win64")]
         static void CopyDll2BuildDir()
         {
             BuildTarget target = BuildTarget.StandaloneWindows64;
-            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Release-Win64";
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win64/build/bin/HuatuoTest_Data/StreamingAssets";
+            CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
+        }
+
+        [MenuItem("Huatuo/CopyDll/Release_Win64")]
+        static void CopyDll2BuildDir2()
+        {
+            BuildTarget target = BuildTarget.StandaloneWindows64;
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Release-Win64/HuatuoTest_Data/StreamingAssets";
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
 

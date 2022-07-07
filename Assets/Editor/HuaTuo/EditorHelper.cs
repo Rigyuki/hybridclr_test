@@ -20,16 +20,6 @@ namespace Huatuo
     /// </summary>
     public class EditorHelper : IIl2CppProcessor
     {
-
-
-        //[UnityEditor.Callbacks.DidReloadScripts]
-        [MenuItem("Huatuo/CopyDll/Assets_StreamingAssets")]
-        private static void OnScriptsReloaded()
-        {
-            BuildPlayer.CopyHotfixAndAOTDll2BuildStreamingAssetsDir(EditorUserBuildSettings.activeBuildTarget, Application.streamingAssetsPath);
-        }
-
-
         public int callbackOrder => 1;
 
         public static string GetAssembliesPostIl2CppStripDir(BuildTarget target) => $"{Path.GetDirectoryName(Application.dataPath)}/HuatuoData/AssembliesPostIl2CppStrip/{target}";

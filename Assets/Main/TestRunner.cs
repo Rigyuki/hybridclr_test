@@ -13,6 +13,13 @@ using UnityEngine;
 
 public class TestRunner
 {
+    public static void PreLoadTests()
+    {
+        foreach (var ass in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            ass.GetCustomAttributes();
+        }
+    }
 
     public static void Run()
     {
