@@ -40,14 +40,15 @@ namespace Huatuo.Generators
             gen.Emit(OpCodes.Ret);
             int clrSize = ((Func<int>)method.CreateDelegate(typeof(Func<int>)))();
 
-            var (customSize, customAligment) = s_calculator64.SizeAndAligmentOf(t);
+            sizeAndAligment = s_calculator64.SizeAndAligmentOf(t);
+            int customSize = sizeAndAligment.Item1;
             if (customSize != clrSize)
             {
                 s_calculator64.SizeAndAligmentOf(t);
                 throw new Exception($"type:{t} size calculate error. clr:{sizeAndAligment} custom:{customSize}");
             }
             _typeSizeCache64.Add(t, sizeAndAligment);
-            return (customSize, customAligment);
+            return sizeAndAligment;
         }
 
         protected static (int Size, int Aligment) ComputeSizeAndAligmentOfArch32(Type t)

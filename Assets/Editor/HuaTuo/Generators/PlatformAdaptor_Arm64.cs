@@ -149,7 +149,7 @@ namespace Huatuo.Generators
             return false;
         }
 
-        public static TypeInfo CreateValueType(Type type, bool returnValue)
+        private static TypeInfo CreateValueType(Type type, bool returnValue)
         {
             (int typeSize, int typeAligment) = ComputeSizeAndAligmentOfArch64(type);
             if (ComputHFATypeInfo(type, typeSize, out HFATypeInfo hfaTypeInfo))
