@@ -54,15 +54,16 @@ namespace Huatuo.Generators
             {
                 return CreateTypeInfo(type.GetEnumUnderlyingType(), returnValue);
             }
-            int size = ComputeSizeOf(type);
+            (int size, _) = ComputeSizeAndAligmentOfArch64(type);
             //Debug.LogFormat("type:{0} size:{1}", type, size);
-            switch(size)
+            switch (size)
             {
                 case 1:
                 case 2:
                 case 4:
                 case 8: return new TypeInfo(type, ParamOrReturnType.I8_U8);
-                default: return returnValue ? new TypeInfo(type, ParamOrReturnType.STRUCTURE_ALIGN1, size) :
+                default:
+                    return returnValue ? CreateValueType(type) :
                         new TypeInfo(type, ParamOrReturnType.STRUCTURE_AS_REF_PARAM);
             }
         }

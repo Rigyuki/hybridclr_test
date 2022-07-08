@@ -79,7 +79,8 @@ namespace Huatuo.Generators
             }
             else if(returnValue)
             {
-                return new TypeInfo(type, ParamOrReturnType.STRUCTURE_ALIGN1, typeSize);
+                //return new TypeInfo(type, ParamOrReturnType.STRUCTURE_ALIGN1, typeSize);
+                return CreateValueType(type);
             }
             else
             {
@@ -150,7 +151,7 @@ namespace Huatuo.Generators
 
         public static TypeInfo CreateValueType(Type type, bool returnValue)
         {
-            int typeSize = ComputeSizeOf(type);
+            (int typeSize, int typeAligment) = ComputeSizeAndAligmentOfArch64(type);
             if (ComputHFATypeInfo(type, typeSize, out HFATypeInfo hfaTypeInfo))
             {
                 if (hfaTypeInfo.Type == typeof(float))

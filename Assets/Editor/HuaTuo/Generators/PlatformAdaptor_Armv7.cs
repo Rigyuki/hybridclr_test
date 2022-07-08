@@ -31,26 +31,12 @@ namespace Huatuo.Generators
         };
 
 
-        private static Dictionary<Type, (int, int)> _typeSizeCache32 = new Dictionary<Type, (int, int)>();
 
 
-        private static ValueTypeSizeAligmentCalculator s_calculator32 = new ValueTypeSizeAligmentCalculator(true);
 
         public CallConventionType CallConventionType { get; } = CallConventionType.Armv7;
 
         public override bool IsArch32 => true;
-
-        public static (int Size, int Aligment) ComputeSizeAndAligmentOfArch32(Type t)
-        {
-            if (_typeSizeCache32.TryGetValue(t, out var sa))
-            {
-                return sa;
-            }
-            // all this just to invoke one opcode with no arguments!
-            sa = s_calculator32.SizeAndAligmentOf(t);
-            _typeSizeCache32.Add(t, sa);
-            return sa;
-        }
 
         public override TypeInfo CreateTypeInfo(Type type, bool returnValue)
         {
@@ -74,24 +60,9 @@ namespace Huatuo.Generators
             {
                 return CreateTypeInfo(type.GetEnumUnderlyingType(), returnValue);
             }
-            var ti = CreateValueType(type, returnValue);
+            var ti = CreateValueType(type);
             // s_typeInfoCaches.Add(type, ti);
             return ti;
-        }
-
-
-        public static TypeInfo CreateValueType(Type type, bool _)
-        {
-            var (size, aligment) = ComputeSizeAndAligmentOfArch32(type);
-            Debug.Assert(size % aligment == 0);
-            switch(aligment)
-            {
-                case 1: return new TypeInfo(type, ParamOrReturnType.STRUCTURE_ALIGN1, size);
-                case 2: return new TypeInfo(type, ParamOrReturnType.STRUCTURE_ALIGN2, size);
-                case 4: return new TypeInfo(type, ParamOrReturnType.STRUCTURE_ALIGN4, size);
-                case 8: return new TypeInfo(type, ParamOrReturnType.STRUCTURE_ALIGN8, size);
-                default: throw new NotSupportedException($"type:{type} not support aligment:{aligment}");
-            }
         }
 
         public IEnumerable<MethodBridgeSig> PrepareCommon1()
