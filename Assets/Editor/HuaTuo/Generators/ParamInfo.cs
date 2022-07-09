@@ -28,15 +28,15 @@ namespace Huatuo.Generators
             {
                 case CallConventionType.X64:
                     {
-                        return IsNative2ManagedByAddress ? $"(void*)&__arg{Index}" : $"*(void**)&__arg{Index}";
+                        return IsNative2ManagedByAddress ? $"(uint64_t)&__arg{Index}" : $"*(uint64_t*)&__arg{Index}";
                     }
                 case CallConventionType.Arm64:
                     {
-                        return IsNative2ManagedByAddress ? $"(void*)&__arg{Index}" : $"*(void**)&__arg{Index}";
+                        return IsNative2ManagedByAddress ? $"(uint64_t)&__arg{Index}" : $"*(uint64_t*)&__arg{Index}";
                     }
                 case CallConventionType.Armv7:
                     {
-                        return IsNative2ManagedByAddress ? $"(void*)&__arg{Index}" : $"*(void**)&__arg{Index}";
+                        return IsNative2ManagedByAddress ? $"(uint64_t)&__arg{Index}" : $"*(uint64_t*)&__arg{Index}";
                     }
                 default:
                     throw new NotSupportedException();
