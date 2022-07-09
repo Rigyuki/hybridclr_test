@@ -18,7 +18,11 @@ namespace Huatuo
     /// 这里仅仅是一个流程展示
     /// 简单说明如果你想将huatuo的dll做成自动化的简单实现
     /// </summary>
+#if UNITY_2021_1_OR_NEWER
+    public class EditorHelper : IPostBuildPlayerScriptDLLs
+#else
     public class EditorHelper : IIl2CppProcessor
+#endif
     {
         public int callbackOrder => 1;
 
@@ -33,12 +37,22 @@ namespace Huatuo
 
         public void OnBeforeConvertRun(BuildReport report, Il2CppBuildPipelineData data)
         {
+            CopyStripDlls(data.target);
+        }
+
+        public void OnPostBuildPlayerScriptDLLs(BuildReport report)
+        {
+            CopyStripDlls(report.summary.platform);
+        }
+
+        private void CopyStripDlls(BuildTarget target)
+        {
             var projDir = Path.GetDirectoryName(Application.dataPath);
-            var dstPath = GetAssembliesPostIl2CppStripDir(data.target);
+            var dstPath = GetAssembliesPostIl2CppStripDir(target);
 
             Directory.CreateDirectory(dstPath);
 
-            string srcStripDllPath = projDir + "/" + (data.target == BuildTarget.Android ? "Temp/StagingArea/assets/bin/Data/Managed" : "Temp/StagingArea/Data/Managed/");
+            string srcStripDllPath = projDir + "/" + (target == BuildTarget.Android ? "Temp/StagingArea/assets/bin/Data/Managed" : "Temp/StagingArea/Data/Managed/");
 
             foreach (var fileFullPath in Directory.GetFiles(srcStripDllPath, "*.dll"))
             {
@@ -50,19 +64,6 @@ namespace Huatuo
                 string target1 = $"{Application.streamingAssetsPath}/{file}";
                 Debug.Log($"copy strip dll {fileFullPath} ==> {target1}");
                 File.Copy(fileFullPath, target1, true);
-
-                //foreach (var verTarget in new string[] { "Build-Win64" })
-                //{
-                //    string verStreamingAssetsPath = $"{Application.dataPath}/../{verTarget}/build/bin/HuatuoTest_Data/StreamingAssets";
-                //    if (!Directory.Exists(verStreamingAssetsPath))
-                //    {
-                //        continue;
-                //    }
-                //    string target2 = $"{verStreamingAssetsPath}/{file}";
-                //    Debug.Log($"copy strip dll {fileFullPath} ==> {target2}");
-                //    File.Copy(fileFullPath, target2, true);
-                //}
-
             }
         }
 
@@ -210,103 +211,5 @@ namespace Huatuo
             CleanIl2CppBuildCache();
         }
 
-        //public class A
-        //{
-        //    public static int s = 0;
-
-        //    static A()
-        //    {
-        //        s = 1;
-        //    }
-
-        //    public A()
-        //    {
-
-        //    }
-
-        //    int X { get; set; }
-
-
-        //}
-
-
-
-        //struct NotHFA
-        //{
-        //    public float x;
-        //    public float y;
-        //    public int z;
-        //}
-
-        //struct EmbedHFA
-        //{
-        //    public static float z;
-        //    public Vector2 x;
-        //    public float y;
-        //}
-
-        //struct EmbedHFA2
-        //{
-        //    public Vector2 x;
-        //    public Vector2 y;
-        //}
-
-        //struct EmbedHFA3
-        //{
-        //    public double x;
-        //    public double y;
-        //    public double z;
-        //}
-
-        //[MenuItem("Test/Test")]
-        //public static void TestMethodCheck()
-        //{
-        //    var paArm64 = new PlatformAdaptor_Arm64();
-
-        //    {
-        //        var type = typeof(Vector2);
-        //        var size = PlatformAdaptor_Arm64.ComputeSizeOf(type);
-        //        Debug.Assert(size == 8);
-        //        bool ishfa = PlatformAdaptor_Arm64.ComputHFATypeInfo(type, size, out var typeInfo);
-        //        Debug.Assert(ishfa);
-        //        var ti = PlatformAdaptor_Arm64.CreateValueType(type, false);
-        //        Debug.Assert(ti.PorType == ParamOrReturnType.ARM64_HFA_FLOAT_2);
-        //    }
-        //    {
-        //        var type = typeof(NotHFA);
-        //        var size = PlatformAdaptor_Arm64.ComputeSizeOf(type);
-        //        Debug.Assert(size == 12);
-        //        bool ishfa = PlatformAdaptor_Arm64.ComputHFATypeInfo(type, size, out var typeInfo);
-        //        Debug.Assert(!ishfa);
-        //    }
-        //    {
-        //        var type = typeof(EmbedHFA);
-        //        var size = PlatformAdaptor_Arm64.ComputeSizeOf(type);
-        //        Debug.Assert(size == 12);
-        //        bool ishfa = PlatformAdaptor_Arm64.ComputHFATypeInfo(type, size, out var typeInfo);
-        //        Debug.Assert(ishfa);
-        //        var ti = PlatformAdaptor_Arm64.CreateValueType(type, false);
-        //        Debug.Assert(ti.PorType == ParamOrReturnType.ARM64_HFA_FLOAT_3);
-        //    }
-        //    {
-        //        var type = typeof(EmbedHFA2);
-        //        var size = PlatformAdaptor_Arm64.ComputeSizeOf(type);
-        //        Debug.Assert(size == 16);
-        //        bool ishfa = PlatformAdaptor_Arm64.ComputHFATypeInfo(type, size, out var typeInfo);
-        //        Debug.Assert(ishfa);
-        //        var ti = PlatformAdaptor_Arm64.CreateValueType(type, false);
-        //        Debug.Assert(ti.PorType == ParamOrReturnType.ARM64_HFA_FLOAT_4);
-        //    }
-        //    {
-        //        var type = typeof(EmbedHFA3);
-        //        var size = PlatformAdaptor_Arm64.ComputeSizeOf(type);
-        //        Debug.Assert(size == 24);
-        //        bool ishfa = PlatformAdaptor_Arm64.ComputHFATypeInfo(type, size, out var typeInfo);
-        //        Debug.Assert(ishfa);
-        //        var ti = PlatformAdaptor_Arm64.CreateValueType(type, false);
-        //        Debug.Assert(ti.PorType == ParamOrReturnType.ARM64_HFA_DOUBLE_3);
-        //    }
-        //    Debug.Log("test succ");
-        //}
     }
 }

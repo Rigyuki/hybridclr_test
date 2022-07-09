@@ -111,6 +111,35 @@ namespace SharpUnit
                         throw m_caughtEx.InnerException;
                     }
                 }
+                catch(Exception e)
+                {
+                    m_caughtEx = e;
+                    if (null != Assert.Exception)
+                    {
+                        // Compare the exceptions
+                        Assert.Equal(Assert.Exception, e);
+                    }
+                    else
+                    {
+                        // If this is a test exception
+                        if (null != e.InnerException &&
+                            typeof(TestException) == e.InnerException.GetType())
+                        {
+                            // Set the description
+                            TestException te = e.InnerException as TestException;
+                            te.Description = "Failed: " + GetType() + "." + m_testMethod + "()";
+                            if (null != te.StackFrame)
+                            {
+                                // Add stack frame info
+                                te.Description += " in File: " + System.IO.Path.GetFileName(te.StackFrame.GetFileName());
+                                te.Description += " on Line: " + te.StackFrame.GetFileLineNumber();
+                            }
+                        }
+
+                        // Re-throw the exception to be tracked
+                        throw m_caughtEx.InnerException;
+                    }
+                }
 
                 // If we are expecting an exception but did not catch one
                 if (null != Assert.Exception &&
