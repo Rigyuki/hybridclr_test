@@ -55,6 +55,12 @@ public class RefTypes : MonoBehaviour
         Instantiate<GameObject>(null, new Vector3(), new Quaternion(), null);
     }
 
+    public void RefNumerics()
+    {
+        var a = new System.Numerics.BigInteger();
+        a.ToString();
+    }
+
 
     void RefMisc()
     {

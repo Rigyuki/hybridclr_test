@@ -14,17 +14,7 @@
   <assembly fullname="System"/>
   <assembly fullname="System.Core"/>
   <assembly fullname="mscorlib"/>
-  <assembly fullname="Newtonsoft.Json"/>
-  <assembly fullname="Newtonsoft.Json.UnityConverters"/>
-  <assembly fullname="protobuf-net"/>
-  <assembly fullname="Google.Protobuf"/>
-  <assembly fullname="sqlite3"/>
-  <assembly fullname="MongoDB.Bson"/>
   <assembly fullname="System.Threading.Tasks"/>
-  <assembly fullname="DOTween.Modules"/>
-  <assembly fullname="UniTask"/>
-  <assembly fullname="UniTask.DOTween"/>
   <assembly fullname="UniTask.Linq"/>
-  <assembly fullname="UnityEngine.TestRunner"/>
   <assembly fullname="nunitlite"/>
 </linker>
