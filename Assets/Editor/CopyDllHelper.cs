@@ -46,10 +46,18 @@ namespace HybridCLR
         }
 
         [MenuItem("HybridCLR/CopyDll/Build_Win64")]
-        static void CopyDll2BuildDir()
+        static void CopyDll2BuildDir64()
         {
             BuildTarget target = BuildTarget.StandaloneWindows64;
             string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win64/build/bin/HuatuoTest_Data/StreamingAssets";
+            CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
+        }
+
+        [MenuItem("HybridCLR/CopyDll/Build_Win32")]
+        static void CopyDll2BuildDir86()
+        {
+            BuildTarget target = BuildTarget.StandaloneWindows;
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win32/build/bin/HuatuoTest_Data/StreamingAssets";
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
 

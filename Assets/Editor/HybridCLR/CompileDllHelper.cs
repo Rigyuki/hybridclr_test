@@ -19,6 +19,7 @@ namespace HybridCLR
             ScriptCompilationSettings scriptCompilationSettings = new ScriptCompilationSettings();
             scriptCompilationSettings.group = group;
             scriptCompilationSettings.target = target;
+            scriptCompilationSettings.options =  ScriptCompilationOptions.DevelopmentBuild;
             Directory.CreateDirectory(buildDir);
             ScriptCompilationResult scriptCompilationResult = PlayerBuildInterface.CompilePlayerScripts(scriptCompilationSettings, buildDir);
             foreach (var ass in scriptCompilationResult.assemblies)
@@ -36,6 +37,12 @@ namespace HybridCLR
         public static void CompileDllActiveBuildTarget()
         {
             CompileDll(EditorUserBuildSettings.activeBuildTarget);
+        }
+
+        [MenuItem("HybridCLR/CompileDll/Win86")]
+        public static void CompileDllWin86()
+        {
+            CompileDll(BuildTarget.StandaloneWindows);
         }
 
         [MenuItem("HybridCLR/CompileDll/Win64")]

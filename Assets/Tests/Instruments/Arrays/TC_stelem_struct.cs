@@ -9,7 +9,7 @@ using Test;
 
 namespace Tests.Instruments.Arrays
 {
-    internal class TC_stelem : GeneralTestCaseBase
+    internal class TC_stelem_struct : GeneralTestCaseBase
     {
 
         [UnitTest]

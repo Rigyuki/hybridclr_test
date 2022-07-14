@@ -15,7 +15,7 @@ namespace Tests.CSharp
         long b;
     }
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    //[StructLayout(LayoutKind.Sequential, Pack = 1)]
     struct StructWithClass
     {
         byte a;
