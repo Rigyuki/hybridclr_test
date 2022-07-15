@@ -49,7 +49,7 @@ namespace HybridCLR
         static void CopyDll2BuildDir64()
         {
             BuildTarget target = BuildTarget.StandaloneWindows64;
-            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win64/build/bin/HuatuoTest_Data/StreamingAssets";
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win64/build/bin/hybridclr_test_Data/StreamingAssets";
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
 
@@ -57,7 +57,7 @@ namespace HybridCLR
         static void CopyDll2BuildDir86()
         {
             BuildTarget target = BuildTarget.StandaloneWindows;
-            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win32/build/bin/HuatuoTest_Data/StreamingAssets";
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win32/build/bin/hybridclr_test_Data/StreamingAssets";
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
 
@@ -65,7 +65,7 @@ namespace HybridCLR
         static void CopyDll2BuildDir2()
         {
             BuildTarget target = BuildTarget.StandaloneWindows64;
-            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Release-Win64/HuatuoTest_Data/StreamingAssets";
+            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Release-Win64/hybridclr_test_Data/StreamingAssets";
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
     }

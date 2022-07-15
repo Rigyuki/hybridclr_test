@@ -1,5 +1,6 @@
 ﻿using System;
 using SharpUnit;
+using UnityEngine;
 
 namespace Tests.Instruments.Converts
 {
@@ -104,9 +105,19 @@ namespace Tests.Instruments.Converts
         [UnitTest]
         public void long_2()
         {
-            long x = -1;
+            long x = 0xFFFFFFFF;
+            long x2 = (0x1L << 32);
+            Assert.Equal(x2 - 1, x);
             ulong y = (ulong)x;
-            Assert.Equal(~0UL, y);
+            Assert.Equal(0xFFFFFFFFUL, y);
+        }
+
+        [UnitTest]
+        public void long_3()
+        {
+            long x = 0x10FFFFFFFF;
+            ulong y = (ulong)x;
+            Assert.Equal(0x10FFFFFFFFUL, y);
         }
 
         [UnitTest]
