@@ -6,13 +6,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Huatuo
+namespace HybridCLR
 {
-    public static class HuatuoApi
+    public static class RuntimeApi
     {
 #if UNITY_STANDALONE_WIN
         private const string dllName = "GameAssembly";
-#elif UNITY_IOS || UNITY_STANDALONE_OSX
+#elif UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_WEBGL
     private const string dllName = "__Internal";
 #else
     private const string dllName = "il2cpp";

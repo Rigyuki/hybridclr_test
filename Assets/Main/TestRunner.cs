@@ -1,4 +1,5 @@
-﻿using SharpUnit;
+﻿using HybridCLR;
+using SharpUnit;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,7 +42,7 @@ public class TestRunner
 #if UNITY_EDITOR
         return TestUtil.GetAssembly(assName);
 #else
-        byte[] dllBytes = BetterStreamingAssets.ReadAllBytes(assName + ".dll");
+        byte[] dllBytes = LoadDll.GetDllBytes(assName + ".dll");
         return System.Reflection.Assembly.Load(dllBytes);
 #endif
     }
@@ -66,10 +67,10 @@ public class TestRunner
         };
         foreach(string dll in aotDlls)
         {
-            byte[] dllBytes = BetterStreamingAssets.ReadAllBytes(dll);
+            byte[] dllBytes = LoadDll.GetDllBytes(dll);
             fixed (byte* ptr = dllBytes)
             {
-                int err = Huatuo.HuatuoApi.LoadMetadataForAOTAssembly((IntPtr)ptr, dllBytes.Length);
+                int err = RuntimeApi.LoadMetadataForAOTAssembly((IntPtr)ptr, dllBytes.Length);
                 Debug.LogFormat("LoadMetadataForAOTAssembly:{0}. ret:{1}", dll, err);
             }
         }
