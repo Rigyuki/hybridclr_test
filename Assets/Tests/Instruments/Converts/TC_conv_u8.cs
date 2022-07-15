@@ -133,7 +133,14 @@ namespace Tests.Instruments.Converts
         {
             int* x = (int*)-1;
             ulong y = (ulong)x;
-            Assert.Equal(~0UL, y);
+            if (sizeof(int*) == 8)
+            {
+                Assert.Equal(~0UL, y);
+            }
+            else
+            {
+                Assert.Equal(~(uint)0, y);
+            }
         }
 
         [UnitTest]
