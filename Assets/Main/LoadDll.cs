@@ -59,5 +59,14 @@ public class LoadDll : MonoBehaviour
         TestRunner.InitTestContext();
         TestRunner.Run();
 
+        StartCoroutine(DelayAndQuit(5f));
+    }
+
+    private IEnumerator DelayAndQuit(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+#if !UNITY_EDITOR
+        Application.Quit();
+#endif
     }
 }

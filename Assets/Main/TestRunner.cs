@@ -33,7 +33,6 @@ public class TestRunner
 
         TestReporter.GenerateStatisticReport();
         TestReporter.Close();
-        Application.Quit();
     }
 
 
