@@ -8,10 +8,9 @@ namespace HybridCLR
 {
     public class BuildPlayerHelper
     {
-        public static void CopyDlls(string outputDir)
+        public static void CopyDlls(BuildTarget target, string outputDir)
         {
-            Directory.CreateDirectory(outputDir);
-
+            CopyDllHelper.CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputDir);
         }
 
         [MenuItem("HybridCLR/Build/Win64")]
@@ -41,10 +40,11 @@ namespace HybridCLR
                 Debug.LogError("打包失败");
                 return;
             }
+            CompileDllHelper.CompileDll(target);
 
             Debug.Log("====> Build AssetBundle");
             Debug.Log("====> 复制 AssetBundle");
-            CopyDlls($"{outputPath}/HybridCLRTrial_Data/StreamingAssets");
+            CopyDlls(target, $"{outputPath}/HybridCLRTest_Data/StreamingAssets");
 
 #if UNITY_EDITOR
             Application.OpenURL($"file:///{outputPath}");
@@ -60,7 +60,7 @@ namespace HybridCLR
 
             var buildOptions = BuildOptions.None;
 
-            string location = outputPath + "/HybridCLRTrial.apk";
+            string location = outputPath + "/HybridCLRTest.apk";
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions()
             {
                 scenes = new string[] { "Assets/Scenes/main.unity" },
@@ -75,7 +75,7 @@ namespace HybridCLR
             Debug.Log("====> Build AssetBundle");
 
             // FIX ME! need copy dlls 
-            //CopyDlls($"{outputPath}/HybridCLRTrial_Data/StreamingAssets");
+            //CopyDlls($"{outputPath}/HybridCLRTest_Data/StreamingAssets");
 
             Debug.Log("====> 第2次打包");
             BuildPipeline.BuildPlayer(buildPlayerOptions);
