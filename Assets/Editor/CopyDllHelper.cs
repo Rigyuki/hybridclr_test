@@ -53,11 +53,19 @@ namespace HybridCLR
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
 
-        [MenuItem("HybridCLR/CopyDll/Build_Win32")]
-        static void CopyDll2BuildDir86()
+        [MenuItem("HybridCLR/CopyDll/Build_AndroidV7")]
+        static void CopyDll_AndroidV7()
         {
-            BuildTarget target = BuildTarget.StandaloneWindows;
-            string outputPath = $"{Directory.GetParent(Application.dataPath)}/Build-Win32/build/bin/hybridclr_test_Data/StreamingAssets";
+            BuildTarget target = BuildTarget.Android;
+            string outputPath = $"{BuildConfig.ProjectDir}/Build-AndroidV7/unityLibrary/src/main/assets/";
+            CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
+        }
+
+        [MenuItem("HybridCLR/CopyDll/Build_AndroidV8")]
+        static void CopyDll_AndroidV8()
+        {
+            BuildTarget target = BuildTarget.Android;
+            string outputPath = $"{BuildConfig.ProjectDir}/Build-AndroidV8/unityLibrary/src/main/assets/";
             CopyHotfixAndAOTDll2BuildStreamingAssetsDir(target, outputPath);
         }
 
