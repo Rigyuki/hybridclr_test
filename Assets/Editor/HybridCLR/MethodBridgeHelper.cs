@@ -49,13 +49,25 @@ namespace HybridCLR
 
         private static List<Assembly> GetScanAssembiles()
         {
-            var allAssByName = AppDomain.CurrentDomain.GetAssemblies().ToDictionary(a => a.GetName().Name);
-            CompileDllHelper.CompileDllActiveBuildTarget();
+            var allAssByName = new Dictionary<string, Assembly>();
+            foreach(var ass in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                allAssByName[ass.GetName().Name] = ass;
+            }
+            //CompileDllHelper.CompileDllActiveBuildTarget();
 
-            var rootAssemblies = Directory.GetFiles(BuildConfig.GetHotFixDllsOutputDirByTarget(EditorUserBuildSettings.activeBuildTarget), "*.dll")
+            var rootAssemblies = BuildConfig.AllHotUpdateDllNames
                 .Select(dll => Path.GetFileNameWithoutExtension(dll)).Concat(GeneratorConfig.GetExtraAssembiles())
                 .Where(name => allAssByName.ContainsKey(name)).Select(name => allAssByName[name]).ToList();
+            //var rootAssemblies = GeneratorConfig.GetExtraAssembiles()
+            //    .Where(name => allAssByName.ContainsKey(name)).Select(name => allAssByName[name]).ToList();
             CollectDependentAssemblies(allAssByName, rootAssemblies);
+            rootAssemblies.Sort((a, b) => a.GetName().Name.CompareTo(b.GetName().Name));
+            Debug.Log($"assembly count:{rootAssemblies.Count}");
+            foreach(var ass in rootAssemblies)
+            {
+                Debug.Log($"scan assembly:{ass.GetName().Name}");
+            }
             return rootAssemblies;
         }
 
