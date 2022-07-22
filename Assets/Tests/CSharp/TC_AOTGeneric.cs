@@ -1,9 +1,11 @@
-﻿using SharpUnit;
+﻿using AOTDefs;
+using SharpUnit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Tests.CSharp.AOTGenerics
 {
@@ -51,6 +53,74 @@ namespace Tests.CSharp.AOTGenerics
             Assert.Equal(2, e.x);
             Assert.Equal(4f, e.y);
             Assert.Equal("aaa", e.z);
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_param_exist()
+        {
+            IVG a = new VirtualGenericMethod();
+            Assert.Equal("$1", a.Foo<float>(1f));
+            Assert.Equal(1, a.Bar<long>(1));
+
+            VirtualGenericMethodBase b = new VirtualGenericMethod();
+            Assert.Equal("#2", b.Sum<long>(2));
+            Assert.Equal(2f, b.Run<float>(1f, 2f));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_param()
+        {
+            IVG a = new VirtualGenericMethod();
+            Assert.Equal("$1", a.Foo<int>(1));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_param2()
+        {
+            IVG a = new VirtualGenericMethod();
+            Assert.Equal("$(1.00, 2.00, 3.00)", a.Foo(new Vector3(1,2,3)));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_param3()
+        {
+            VirtualGenericMethodBase a = new VirtualGenericMethod();
+            Assert.Equal("#1", a.Sum(1));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_param4()
+        {
+            VirtualGenericMethodBase a = new VirtualGenericMethod();
+            Assert.Equal("#(1.00, 2.00, 3.00)", a.Sum(new Vector3(1, 2, 3)));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_return()
+        {
+            IVG a = new VirtualGenericMethod();
+            Assert.Equal(1, a.Bar<int>(1));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_return2()
+        {
+            IVG a = new VirtualGenericMethod();
+            Assert.Equal(new Vector3(1, 2, 3), a.Bar(new Vector3(1, 2, 3)));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_return3()
+        {
+            VirtualGenericMethodBase a = new VirtualGenericMethod();
+            Assert.Equal("#1", a.Sum(1));
+        }
+
+        [UnitTest]
+        public void virtual_generic_method_return4()
+        {
+            VirtualGenericMethodBase a = new VirtualGenericMethod();
+            Assert.Equal(new Vector3(1, 2, 3), a.Run(new Vector3(1,1,1), new Vector3(1, 2, 3)));
         }
     }
 }

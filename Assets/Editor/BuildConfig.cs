@@ -56,6 +56,7 @@ namespace HybridCLR
             "mscorlib.dll",
             "System.dll",
             "System.Core.dll", // 如果使用了Linq，需要这个
+            "Main.dll",
         };
 
         public static List<string> AssetBundleFiles { get; } = new List<string>
@@ -97,7 +98,21 @@ namespace HybridCLR
 
         public static string GetOriginBuildStripAssembliesDir(BuildTarget target)
         {
-            return ProjectDir + "/" + (target == BuildTarget.Android ? "Temp/StagingArea/assets/bin/Data/Managed" : "Temp/StagingArea/Data/Managed/");
+#if UNITY_2021_1_OR_NEWER
+#if UNITY_STANDALONE_WIN
+            return $"{ProjectDir}/Library/Bee/artifacts/WinPlayerBuildProgram/ManagedStripped";
+#elif UNITY_ANDROID
+            return $"{ProjectDir}/Library/Bee/artifacts/Android/ManagedStripped";
+#elif UNITY_IOS
+            return $"{ProjectDir}/Library/PlayerDataCache/iOS/Data/Managed";
+#else
+            throw new NotSupportedException("GetOriginBuildStripAssembliesDir");
+#endif
+#else
+            return target == BuildTarget.Android ?
+                $"{ProjectDir}/Temp/StagingArea/assets/bin/Data/Managed" :
+                $"{ProjectDir}/Temp/StagingArea/Data/Managed/";
+#endif
         }
 
         public static string GetAssetBundleOutputDirByTarget(BuildTarget target)

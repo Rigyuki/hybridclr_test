@@ -63,6 +63,7 @@ public class TestRunner
             "mscorlib.dll",
             "System.dll",
             "System.Core.dll",
+            "Main.dll",
         };
         foreach(string dll in aotDlls)
         {

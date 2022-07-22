@@ -29,7 +29,7 @@
 
         public int Calc()
         {
-            return 1;
+            return a + 1;
         }
 
         public static int Default()

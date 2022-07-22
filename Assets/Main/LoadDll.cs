@@ -29,6 +29,7 @@ public class LoadDll : MonoBehaviour
             "mscorlib.dll",
             "System.dll",
             "System.Core.dll", // 如果使用了Linq，需要这个
+            "Main.dll",
         };
         foreach (var dll in dlls)
         {

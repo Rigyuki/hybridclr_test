@@ -28,22 +28,22 @@ namespace Tests.Instruments.Funcs
         [UnitTest]
         public void class_virtual()
         {
-            var x = new ForInhereInterpClass(1, 2);
-            Assert.Equal(1, x.Calc());
+            var x = new ForInhereInterpClass(10, 20);
+            Assert.Equal(11, x.Calc());
         }
 
         [UnitTest]
         public void class_interface()
         {
-            IInterpFoo x = new ForInhereInterpClass(1, 2);
-            Assert.Equal(1, x.Calc());
+            IInterpFoo x = new ForInhereInterpClass(10, 20);
+            Assert.Equal(11, x.Calc());
         }
 
         [UnitTest]
         public void class_cons_all_impl()
         {
-            var x = new ForInhereInterpValue(1, 2);
-            Assert.Equal(1, Calc(x));
+            var x = new ForInhereInterpValue(10, 20);
+            Assert.Equal(11, Calc(x));
         }
 
 
@@ -68,10 +68,24 @@ namespace Tests.Instruments.Funcs
         }
 
         [UnitTest]
+        public void struct_call_instance()
+        {
+            var x = new ForInhereInterpValue(10, 20);
+            Assert.Equal(10, x.Show());
+        }
+
+        [UnitTest]
+        public void struct_call_interface()
+        {
+            IInterpFoo x = new ForInhereInterpValue(10, 20);
+            Assert.Equal(11, x.Calc());
+        }
+
+        [UnitTest]
         public void struct_cons_all_impl()
         {
-            var x = new ForInhereInterpValue(1, 2);
-            Assert.Equal(1, Calc(x));
+            var x = new ForInhereInterpValue(10, 20);
+            Assert.Equal(11, Calc(x));
         }
 
         [UnitTest]
