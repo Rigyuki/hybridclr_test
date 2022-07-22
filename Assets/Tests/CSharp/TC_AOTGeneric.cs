@@ -16,6 +16,35 @@ namespace Tests.CSharp.AOTGenerics
         public string z;
     }
 
+    public struct IntVec : IEquatable<IntVec>
+    {
+        public int x;
+        public int y;
+        public int z;
+
+        public IntVec(int a, int b, int c)
+        {
+            x = a;
+            y = b;
+            z = c;
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals((IntVec)other);
+        }
+
+        public bool Equals(IntVec other)
+        {
+            return x == other.x && y == other.y && z == other.z;
+        }
+
+        public override string ToString()
+        {
+            return $"({x},{y},{z})";
+        }
+    }
+
     internal class TC_AOTGeneric : GeneralTestCaseBase
     {
         [UnitTest]
@@ -78,7 +107,7 @@ namespace Tests.CSharp.AOTGenerics
         public void virtual_generic_method_param2()
         {
             IVG a = new VirtualGenericMethod();
-            Assert.Equal("$(1.00, 2.00, 3.00)", a.Foo(new Vector3(1,2,3)));
+            Assert.Equal("$(1,2,3)", a.Foo(new IntVec(1,2,3)));
         }
 
         [UnitTest]
@@ -92,7 +121,7 @@ namespace Tests.CSharp.AOTGenerics
         public void virtual_generic_method_param4()
         {
             VirtualGenericMethodBase a = new VirtualGenericMethod();
-            Assert.Equal("#(1.00, 2.00, 3.00)", a.Sum(new Vector3(1, 2, 3)));
+            Assert.Equal("#(1,2,3)", a.Sum(new IntVec(1, 2, 3)));
         }
 
         [UnitTest]
@@ -106,7 +135,7 @@ namespace Tests.CSharp.AOTGenerics
         public void virtual_generic_method_return2()
         {
             IVG a = new VirtualGenericMethod();
-            Assert.Equal(new Vector3(1, 2, 3), a.Bar(new Vector3(1, 2, 3)));
+            Assert.Equal(new IntVec(1, 2, 3), a.Bar(new IntVec(1, 2, 3)));
         }
 
         [UnitTest]
@@ -120,7 +149,7 @@ namespace Tests.CSharp.AOTGenerics
         public void virtual_generic_method_return4()
         {
             VirtualGenericMethodBase a = new VirtualGenericMethod();
-            Assert.Equal(new Vector3(1, 2, 3), a.Run(new Vector3(1,1,1), new Vector3(1, 2, 3)));
+            Assert.Equal(new IntVec(1, 2, 3), a.Run(new IntVec(1,1,1), new IntVec(1, 2, 3)));
         }
     }
 }
