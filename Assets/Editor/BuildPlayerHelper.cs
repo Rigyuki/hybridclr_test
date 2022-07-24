@@ -37,13 +37,13 @@ namespace HybridCLR
             var report = BuildPipeline.BuildPlayer(buildPlayerOptions);
             if (report.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
-                Debug.LogError("´ò°üÊ§°Ü");
+                Debug.LogError("æ‰“åŒ…å¤±è´¥");
                 return;
             }
             CompileDllHelper.CompileDll(target);
 
             Debug.Log("====> Build AssetBundle");
-            Debug.Log("====> ¸´ÖÆ AssetBundle");
+            Debug.Log("====> å¤åˆ¶ AssetBundle");
             CopyDlls(target, $"{outputPath}/HybridCLRTest_Data/StreamingAssets");
 
 #if UNITY_EDITOR
@@ -70,14 +70,14 @@ namespace HybridCLR
                 targetGroup = BuildTargetGroup.Android,
             };
 
-            Debug.Log("====> µÚ1´Î Build App(ÎªÁËÉú³É²¹³äAOTÔªÊý¾Ýdll)");
+            Debug.Log("====> ç¬¬1æ¬¡ Build App(ä¸ºäº†ç”Ÿæˆè¡¥å……AOTå…ƒæ•°æ®dll)");
             BuildPipeline.BuildPlayer(buildPlayerOptions);
             Debug.Log("====> Build AssetBundle");
 
             // FIX ME! need copy dlls 
             //CopyDlls($"{outputPath}/HybridCLRTest_Data/StreamingAssets");
 
-            Debug.Log("====> µÚ2´Î´ò°ü");
+            Debug.Log("====> ç¬¬2æ¬¡æ‰“åŒ…");
             BuildPipeline.BuildPlayer(buildPlayerOptions);
 #if UNITY_EDITOR
             Application.OpenURL($"file:///{outputPath}");
