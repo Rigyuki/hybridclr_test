@@ -37,6 +37,12 @@ namespace HybridCLR
             }
         }
 
+        [MenuItem("HybridCLR/Compile_Copy_Win64")]
+        static void CompileAndCopyDll2BuildDir64()
+        {
+            CompileDllHelper.CompileDllWin64();
+            CopyDll2BuildDir64();
+        }
 
         //[UnityEditor.Callbacks.DidReloadScripts]
         [MenuItem("HybridCLR/CopyDll/Assets_StreamingAssets")]
