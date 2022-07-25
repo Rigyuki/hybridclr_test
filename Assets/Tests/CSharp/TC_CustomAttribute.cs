@@ -19,6 +19,16 @@ namespace Tests.CSharp.CustomeAttrites
         public AOT_Enum_int X { get; }
     }
 
+    public class FT_BoxedValueAttribute : Attribute
+    {
+        public object[] Args { get; }
+
+        public FT_BoxedValueAttribute(params object[] args)
+        {
+            Args = args;
+        }
+    }
+
     internal class TC_CustomAttribute : GeneralTestCaseBase
     {
 
@@ -32,6 +42,42 @@ namespace Tests.CSharp.CustomeAttrites
             Assert.Equal(1, attrs.Length);
             FT_EnumAttribute attr = (FT_EnumAttribute)attrs[0];
             Assert.Equal(AOT_Enum_int.A, attr.X);
+        }
+
+        [UnitTest]
+        [FT_BoxedValue(AOT_Enum_int.A)]
+        public void fixedarg_boxed_enum()
+        {
+            var method = GetType().GetMethod(nameof(fixedarg_boxed_enum));
+            var attrs = method.GetCustomAttributes(typeof(FT_BoxedValueAttribute), false);
+            Assert.NotNull(attrs);
+            Assert.Equal(1, attrs.Length);
+            var attr = (FT_BoxedValueAttribute)attrs[0];
+            Assert.Equal(AOT_Enum_int.A, (AOT_Enum_int)attr.Args[0]);
+        }
+
+        [UnitTest]
+        [FT_BoxedValue(11L)]
+        public void fixedarg_boxed_long()
+        {
+            var method = GetType().GetMethod(nameof(fixedarg_boxed_long));
+            var attrs = method.GetCustomAttributes(typeof(FT_BoxedValueAttribute), false);
+            Assert.NotNull(attrs);
+            Assert.Equal(1, attrs.Length);
+            var attr = (FT_BoxedValueAttribute)attrs[0];
+            Assert.Equal(11L, (long)attr.Args[0]);
+        }
+
+        [UnitTest]
+        [FT_BoxedValue(typeof(Vector2d))]
+        public void fixedarg_type()
+        {
+            var method = GetType().GetMethod(nameof(fixedarg_type));
+            var attrs = method.GetCustomAttributes(typeof(FT_BoxedValueAttribute), false);
+            Assert.NotNull(attrs);
+            Assert.Equal(1, attrs.Length);
+            var attr = (FT_BoxedValueAttribute)attrs[0];
+            Assert.Equal(typeof(Vector2d), (Type)attr.Args[0]);
         }
 
         [UnitTest]
