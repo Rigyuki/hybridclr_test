@@ -13,10 +13,9 @@
 ## 运行方式
 
 - 测试huatuo前先在editor下运行，确保通过所有测试用例
+- 打包测试工程的方式与hybridclr_trial工程类似，但没有使用ab。将aot dll（需要先build游戏一次生成它们）及BoostrapTests.dll及Tests.dll拷入StreamingAssets再打包即可。Win下可以省去上面所有手动操作，快捷使用 `HybridCLR -> Build -> Win64` 命令直接一键打包及运行。
 - 启动打包后的测试程序，进入第一个场景后，会自动运行运行所有c#测试用例。所有测试用例的结果都写入{Application.persistentPath}/test.log文件，接着进程自动退出。
 - 如果在win平台，在运行结束后会自动打开test.log文件。
-
-提示：为了提高测试效率，建议批量批量用例后再测试。
 
 ## 添加测试
 
@@ -25,14 +24,14 @@
 由于其特殊性，Bootstrap测试无法自省完成，需要由AOT部分来验证。因此代码由两部分代码构成：
 
 - AOT部分代码在 Assets/Main/BootstrapTests 目录
-- interpreter部分代码在 Assets/Test/BootstrapTests 目录
+- interpreter部分代码在 Assets/BootstrapTests 目录
 
 #### 测试类
 
 - 测试类遵从 TC_xxxx 的命名规则
-- 从HuatuoTestCaseBase类继承。
+- 从GeneralTestCaseBase类继承。
 - AOT部分 最顶层命名空间必须为 BootstrapTests，也可以是更具体一点的子命名空间，这样不容易与其他测试用例冲突，例如 BootstrapTests.Delegates。
-- interpreter 为被测试部分，它并不是测试用例，不从 HuatuoTestCaseBase类继承。它的命名空间同样也是BootstrapTests。
+- interpreter 为被测试部分，它并不是测试用例，不从 GeneralTestCaseBase类继承。它的命名空间同样也是BootstrapTests。
 
 #### 测试用例
 
@@ -53,7 +52,7 @@ using UnityEngine;
 
 namespace BootstrapTests
 {
-    public class TC_Arg : HuatuoTestCaseBase
+    public class TC_Arg : GeneralTestCaseBase
     {
 
         [UnitTest]
@@ -72,7 +71,7 @@ namespace BootstrapTests
 ### 普通测试
 
 测试正确性由interpreter部分配合`SharpUnit.Assert`自省完成，因此所有代码都在Test interpreter模块。
-代码在 `Assets/Test/Tests` 目录下。
+代码在 `Assets/Tests` 目录下。
 
 由于测试用例非常多，Tests目录下还分了几个大类如
 
@@ -83,7 +82,7 @@ namespace BootstrapTests
 
 #### 测试类
 
-- 从HuatuoTestCaseBase类继承。
+- 从GeneralTestCaseBase类继承。
 - 最顶层命名空间必须为 Tests，也可以是更具体一点的子命名空间，这样不容易与其他测试用例冲突，例如 Tests.Delegates。
 
 #### 测试用例
@@ -98,7 +97,7 @@ namespace BootstrapTests
 
 namespace Tests.Instruments
 {
-    internal class TC_add : HuatuoTestCaseBase
+    internal class TC_add : GeneralTestCaseBase
     {
 
         [UnitTest]
